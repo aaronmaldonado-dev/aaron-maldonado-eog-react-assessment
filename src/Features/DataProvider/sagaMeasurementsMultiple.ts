@@ -1,19 +1,8 @@
-import { takeEvery, call } from 'redux-saga/effects';
+import { takeEvery, put } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import { PayloadAction } from 'redux-starter-kit';
 import { actions as MeasurementsActions, MultipleMeasurements } from './reducerMeasurements';
-
-export type DataSetUnit = {
-  x: number;
-  y: number;
-};
-
-export type DataSet = {
-  id: string;
-  data: DataSetUnit[];
-};
-
-export type Data = DataSet[];
+import { actions as GraphActions } from './reducerGraph';
 
 function* multipleMeasurementsReceived(action: PayloadAction<MultipleMeasurements[]>) {
   const data = action.payload.map((meas) => (
@@ -25,6 +14,7 @@ function* multipleMeasurementsReceived(action: PayloadAction<MultipleMeasurement
       }))
     }
   ));
+  yield put({ type: GraphActions.graphDataFormatted.type, payload: data });
 }
 
 export default function* watchSelection() {

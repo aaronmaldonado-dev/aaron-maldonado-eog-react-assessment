@@ -13,18 +13,15 @@ export type GraphDataSet = {
 
 export type GraphDataSets = GraphDataSet[];
 
-export type ApiErrorAction = {
-  error: string;
-};
-
 const initialState: GraphDataSets = [];
 
 const slice = createSlice({
   name: 'graph',
   initialState,
   reducers: {
-    graphDataFormatted: (state, action: PayloadAction<MultipleMeasurements>) => {},
-    metricsApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
+    graphDataFormatted: (state, action: PayloadAction<GraphDataSets>) => {
+      return action.payload;
+    }
   },
 });
 
