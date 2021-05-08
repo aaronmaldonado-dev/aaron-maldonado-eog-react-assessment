@@ -1,11 +1,16 @@
 import React, { ReactNode } from 'react';
+import { Provider, createClient } from 'urql';
 
-type Props = { children: ReactNode };
+type Props = { children: ReactNode }
+
+const client = createClient({
+  url: 'https://react.eogresources.com/graphql',
+});
 
 export default ({ children }: Props) => {
   return (
-    <div>
+    <Provider value={client}>
       { children }
-    </div>
+    </Provider>
   );
 };
