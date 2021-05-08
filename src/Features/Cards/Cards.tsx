@@ -56,7 +56,7 @@ const CustomCard = ({ metric = '' }) => {
         unit: data.newMeasurement.unit,
       });
     }
-  }, [data, error]);
+  }, [data, error, metric, dispatch]);
 
   return (
     <Card className={classes.root}>
