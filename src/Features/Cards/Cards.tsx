@@ -25,6 +25,8 @@ const useStyles = makeStyles({
 });
 
 const getMetrics = (state: IState) => state.metrics;
+const getLoading = (state: IState) => state.loading;
+const getMeasurements = (state: IState) => state.measurements;
 
 export default () => {
   const metrics = useSelector(getMetrics);
@@ -42,6 +44,8 @@ export default () => {
 const CustomCard = ({ metric = '' }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const loading = useSelector(getLoading);
+  const measurements = useSelector(getMeasurements);
   const [measurement, setMeasurement] = useState({ value: 0, unit: '' });
   const [response] = useSubscription({ query: query });
   const { data, error } = response;
@@ -56,7 +60,14 @@ const CustomCard = ({ metric = '' }) => {
         unit: data.newMeasurement.unit,
       });
     }
-  }, [data, error, metric, dispatch]);
+    if (data && data.newMeasurement && !loading) {
+      const metricIndex = measurements.findIndex(item => item.metric === data.newMeasurement.metric);
+      dispatch(actions.singleMeasurementReceived({
+        index: metricIndex,
+        measurement: data.newMeasurement
+      }));
+    }
+  }, [data, error, metric, loading, dispatch]);
 
   return (
     <Card className={classes.root}>

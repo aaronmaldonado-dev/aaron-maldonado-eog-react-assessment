@@ -2,6 +2,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import { PayloadAction } from 'redux-starter-kit';
 import { actions as MeasurementsActions, MultipleMeasurements } from './reducerMeasurements';
+import { actions as LoadingActions } from './reducerLoadingMeasurements';
 import { actions as GraphActions } from './reducerGraph';
 
 function* multipleMeasurementsReceived(action: PayloadAction<MultipleMeasurements[]>) {
@@ -13,8 +14,10 @@ function* multipleMeasurementsReceived(action: PayloadAction<MultipleMeasurement
         y: item.value
       }))
     }
-  ));
+    ));
+  yield put({ type: LoadingActions.setLoadingState.type, payload: true });
   yield put({ type: GraphActions.graphDataFormatted.type, payload: data });
+  yield put({ type: LoadingActions.setLoadingState.type, payload: false });
 }
 
 export default function* watchSelection() {

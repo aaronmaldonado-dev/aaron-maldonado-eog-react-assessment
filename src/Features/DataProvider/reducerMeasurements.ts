@@ -1,10 +1,14 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
-
 export type Measurement = {
   metric: string;
   at: number;
   value: number;
   unit: string;
+};
+
+export type MeasurementData  = {
+  index: number;
+  measurement: Measurement;
 };
 
 export type MultipleMeasurements = {
@@ -25,7 +29,10 @@ const slice = createSlice({
     multipleMeasurementsReceived: (state, action: PayloadAction<MultipleMeasurements[]>) => {
       return action.payload;
     },
-    singleMeasurementReceived: (state, action: PayloadAction<Measurement>) => {
+    singleMeasurementReceived: (state, action: PayloadAction<MeasurementData>) => {
+      if (action.payload.index > -1) {
+        state[action.payload.index].measurements.push(action.payload.measurement);
+      }      
     },
     measurementsApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
   },
