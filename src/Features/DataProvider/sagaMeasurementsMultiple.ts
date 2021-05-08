@@ -9,7 +9,7 @@ function* multipleMeasurementsReceived(action: PayloadAction<MultipleMeasurement
     {
       id: meas.metric,
       data: meas.measurements.map((item) => ({
-        x: item.at,
+        x: new Date(item.at),
         y: item.value
       }))
     }

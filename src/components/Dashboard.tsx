@@ -11,6 +11,9 @@ import MetricSelection from '../Features/MetricSelection/MetricSelection';
 const useStyles = makeStyles({
   box: {
     marginTop: 20,
+  },
+  graphContainer: {
+    height: 500
   }
 });
 
@@ -27,7 +30,7 @@ export default () => {
             <Grid item xs={12}>
               <Cards />
             </Grid>
-            <Grid item xs={12}>
+            <Grid className={classes.graphContainer} item xs={12}>
               <Graph />
             </Grid>
           </Grid>
