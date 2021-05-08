@@ -22,7 +22,8 @@ const slice = createSlice({
   name: 'measurements',
   initialState,
   reducers: {
-    multipleMeasurementsReceived: (state, action: PayloadAction<MultipleMeasurements>) => {
+    multipleMeasurementsReceived: (state, action: PayloadAction<MultipleMeasurements[]>) => {
+      return action.payload;
     },
     singleMeasurementReceived: (state, action: PayloadAction<Measurement>) => {
     },
