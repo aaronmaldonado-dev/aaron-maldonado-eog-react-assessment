@@ -33,13 +33,7 @@ const slice = createSlice({
       const { index, point } = action.payload;
       const { x, y } = point;
 
-      state[index] = state[index] || {
-        index: index,
-        data: []
-      };
-
-      if (index > -1 && state[index].data && state[index].data.length > 0) {
-        state[index].data.shift();
+      if (index > -1 && state[index] && x && y) {
         state[index].data.push({ x, y });
       }
     },
