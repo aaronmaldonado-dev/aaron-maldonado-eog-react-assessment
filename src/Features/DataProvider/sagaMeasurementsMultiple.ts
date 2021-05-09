@@ -1,5 +1,4 @@
 import { takeEvery, put } from 'redux-saga/effects';
-import { toast } from 'react-toastify';
 import { PayloadAction } from 'redux-starter-kit';
 import { actions as MeasurementsActions, MultipleMeasurements } from './reducerMeasurements';
 import { actions as LoadingActions } from './reducerLoadingMeasurements';

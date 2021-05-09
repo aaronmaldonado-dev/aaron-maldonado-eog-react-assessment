@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 const getMetrics = (state: IState) => state.metrics;
 const getGraphData = (state: IState) => state.graph;
-const halfBefore = () => new Date().getTime() - 30 * 60 * 1000;
+const halfBefore = () => new Date().getTime() - 1 * 60 * 1000;
 
 export default () => {
   const classes = useStyles();

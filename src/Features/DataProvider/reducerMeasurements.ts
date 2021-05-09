@@ -30,9 +30,7 @@ const slice = createSlice({
       return action.payload;
     },
     singleMeasurementReceived: (state, action: PayloadAction<MeasurementData>) => {
-      if (action.payload.index > -1) {
-        state[action.payload.index].measurements.push(action.payload.measurement);
-      }      
+      return state;
     },
     measurementsApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
   },
