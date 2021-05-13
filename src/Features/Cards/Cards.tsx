@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 import { actions, Measurement } from '../DataProvider/reducerMeasurements';
-import { actions as graphActions } from '../DataProvider/reducerGraph';
 import { IState } from '../../store';
 
 type Props = {
