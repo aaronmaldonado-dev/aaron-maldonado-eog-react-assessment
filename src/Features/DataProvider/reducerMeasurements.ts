@@ -1,36 +1,44 @@
 import { createSlice, PayloadAction } from 'redux-starter-kit';
-export type Measurement = {
-  metric: string;
-  at: number;
-  value: number;
-  unit: string;
-};
-
-export type MeasurementData  = {
-  index: number;
-  measurement: Measurement;
-};
-
-export type MultipleMeasurements = {
-  metric: string;
-  measurements: Measurement[];
-};
 
 export type ApiErrorAction = {
   error: string;
 };
 
-const initialState: MultipleMeasurements[] = [];
+export type Measurement = {
+  metric: string;
+  value: number;
+  unit: string;
+  at: number;
+};
+
+export type MultipleMeasurements = {
+  measurements: Measurement[];
+  metric: string;
+};
+
+const initialState: {[metric: string]: Measurement[]} = {};
 
 const slice = createSlice({
   name: 'measurements',
   initialState,
   reducers: {
     multipleMeasurementsReceived: (state, action: PayloadAction<MultipleMeasurements[]>) => {
-      return action.payload;
+      const payload = action.payload;
+      for (let i = 0; i < payload.length; i++) {
+        const m = payload[i];
+        state[m.metric] = m.measurements;
+      }
     },
-    singleMeasurementReceived: (state, action: PayloadAction<MeasurementData>) => {
-      return state;
+    singleMeasurementReceived: (state, action: PayloadAction<Measurement>) => {
+      const { metric, at, value, unit } = action.payload;
+      state[metric] = state[metric] || [];
+      state[metric].shift();
+      state[metric].push({
+        metric,
+        value, 
+        unit,
+        at, 
+      });
     },
     measurementsApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
   },
