@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import Cards from '../Features/Cards/Cards';
-import Graph from '../Features/Graph/Graph';
+import Graph from '../Features/Graph/GraphContainer';
 import DataProvider from '../Features/DataProvider/DataProvider';
 import MetricSelection from '../Features/MetricSelection/MetricSelection';
 
