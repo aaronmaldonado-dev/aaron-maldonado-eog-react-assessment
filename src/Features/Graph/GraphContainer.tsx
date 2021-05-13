@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useQuery } from 'urql';
+import Card from '@material-ui/core/Card';
+import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import CardContent from '@material-ui/core/CardContent';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import { useQuery } from 'urql';
 import { actions } from '../DataProvider/reducerMeasurements';
 import { IState } from '../../store';
+import Graph from './Graph';
 
 const query = `
   query($input: [MeasurementQuery]) {
@@ -32,7 +33,7 @@ const useStyles = makeStyles({
 
 const getMetrics = (state: IState) => state.metrics;
 
-const halfBefore = () => new Date().getTime() - 30 * 60 * 1000;
+const halfBefore = () => new Date().getTime() - 10 * 60 * 1000;
 const time = halfBefore();
 
 export default () => {
@@ -52,14 +53,15 @@ export default () => {
   const { data } = result;
 
   useEffect(() => {
-    if(!data) return;
-    dispatch(actions.multipleMeasurementsReceived(data.getMultipleMeasurements));     
-  }, [data, dispatch])
+    if (!data) return;
+    dispatch(actions.multipleMeasurementsReceived(data.getMultipleMeasurements));
+  }, [data, dispatch]);
 
   return (
     <div>
       <Card>
         <CardContent className={classes.graphContainer}>
+          <Graph />
         </CardContent>
       </Card>
     </div>
