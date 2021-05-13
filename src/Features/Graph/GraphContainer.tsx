@@ -59,11 +59,13 @@ export default () => {
 
   return (
     <div>
-      <Card>
-        <CardContent className={classes.graphContainer}>
-          <Graph />
-        </CardContent>
-      </Card>
+      {metrics.length > 0 && (
+        <Card>
+          <CardContent className={classes.graphContainer}>
+            <Graph />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
