@@ -31,11 +31,9 @@ const useStyles = makeStyles({
 });
 
 const getMetrics = (state: IState) => state.metrics;
-const getLoading = (state: IState) => state.loading;
 
 export default () => {
   const dispatch = useDispatch();
-  const loading = useSelector(getLoading);
   const metrics = useSelector(getMetrics);
   const [response] = useSubscription({ query: query });
   const { data, error } = response;
@@ -44,22 +42,16 @@ export default () => {
     if (error) {
       dispatch(actions.measurementsApiErrorReceived({ error: error.message }));
     }
-    if (data && data.newMeasurement && !loading) {
-      // dispatch(actions.singleMeasurementReceived(data.newMeasurement));
+    if (metrics.length > 0 && data) {
       const index = metrics.findIndex(item => item === data.newMeasurement.metric);
       if (index > -1) {
-        dispatch(graphActions.askForPushPoint({
-          index,
-          point: {
-            x: new Date(data.newMeasurement.at),
-            y: data.newMeasurement.value
-          }
-        }));
+        dispatch(
+          actions.singleMeasurementReceived(data.newMeasurement),
+        );
       }
-    }    
-  }, [data, metrics, loading, error, dispatch]);
+    }
+  }, [metrics, data, error, dispatch]);
 
-  
   return (
     <Grid container spacing={3}>
       {metrics.map((metric, index) => (
@@ -74,7 +66,7 @@ export default () => {
 const CustomCard = ({ metric = '', measurement }: Props) => {
   const [data, setData] = useState({ value: 0, unit: '' });
   const classes = useStyles();
-  
+
   useEffect(() => {
     if (measurement && measurement.metric === metric) {
       setData({
@@ -82,7 +74,7 @@ const CustomCard = ({ metric = '', measurement }: Props) => {
         unit: measurement.unit,
       });
     }
-  }, [measurement, metric])
+  }, [measurement, metric]);
 
   return (
     <Card className={classes.root}>
@@ -97,41 +89,3 @@ const CustomCard = ({ metric = '', measurement }: Props) => {
     </Card>
   );
 };
-
-// const CustomCard = ({ metric = '' }) => {
-//   const classes = useStyles();
-//   const dispatch = useDispatch();
-//   const measurements = useSelector(getMeasurements);
-//   const loading = useSelector(getLoading);
-//   const [measurement, setMeasurement] = useState({ value: 0, unit: '' });
-
-//   useEffect(() => {
-//     if (error) {
-//       dispatch(actions.measurementsApiErrorReceived({ error: error.message }));
-//     }
-//     if (data && data.newMeasurement.metric === metric) {
-//       setMeasurement({
-//         value: data.newMeasurement.value,
-//         unit: data.newMeasurement.unit,
-//       });
-//     }
-//     if (data && data.newMeasurement && !loading) {
-//       console.log(metrics);
-
-//       dispatch(actions.singleMeasurementReceived(data.newMeasurement));
-//     }
-//   }, [data, error, metric, loading, dispatch]);
-
-//   return (
-//     <Card className={classes.root}>
-//       <CardContent>
-//         <Typography className={classes.title} gutterBottom>
-//           {metric}
-//         </Typography>
-//         <Typography variant="h5">
-//           {measurement.value} {measurement.unit}
-//         </Typography>
-//       </CardContent>
-//     </Card>
-//   );
-// };
